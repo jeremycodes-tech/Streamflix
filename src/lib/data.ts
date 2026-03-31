@@ -843,14 +843,14 @@ export const movies: Movie[] = [
 
 // --- Existing Home Page Categories ---
 export const initialCategories = [
-  { id: 'trending', title: 'Trending Now', movies: [movies[15], movies[17], movies[16], movies[38], movies[65], movies[36], movies[43], movies[0], movies[5]] },
-  { id: 'continue', title: 'Continue Watching', movies: [movies[2], movies[7], movies[8], movies[9], movies[10], movies[11], movies[20], movies[41]] },
-  { id: 'new', title: 'New Releases', movies: [movies[23], movies[35], movies[29], movies[39], movies[37], movies[27], movies[14], movies[4]] },
-  { id: 'family', title: 'Family Favorites', movies: [movies[12], movies[13], movies[37], movies[36], movies[11], movies[15], movies[39]] },
-  { id: 'action', title: 'Action & Adventure', movies: [movies[31], movies[44], movies[19], movies[21], movies[65], movies[22], movies[3], movies[38], movies[42], movies[14]] },
-  { id: 'drama', title: 'Romance & Drama', movies: [movies[18], movies[2], movies[34], movies[33], movies[10], movies[1]] },
-  { id: 'shows', title: 'Top Rated Shows', movies: [movies[16], movies[42], movies[40], movies[65], movies[0], movies[5], movies[44], movies[43]] },
-  { id: 'awards', title: 'Award Winning Movies', movies: [movies[30], movies[32], movies[28], movies[6], movies[12], movies[13]] },
+  { id: 'trending', title: 'Trending Now', movies: [movies[45], movies[46], movies[17], movies[60], movies[56], movies[38], movies[65], movies[43], movies[0], movies[5]] },
+  { id: 'continue', title: 'Continue Watching', movies: [movies[2], movies[47], movies[48], movies[52], movies[41], movies[7], movies[20], movies[9]] },
+  { id: 'new', title: 'New Releases', movies: [movies[62], movies[63], movies[64], movies[65], movies[39], movies[37], movies[27], movies[23], movies[35]] },
+  { id: 'family', title: 'Family Favorites', movies: [movies[12], movies[13], movies[57], movies[37], movies[36], movies[49], movies[11]] },
+  { id: 'action', title: 'Action & Adventure', movies: [movies[45], movies[50], movies[54], movies[55], movies[58], movies[63], movies[31], movies[44], movies[65]] },
+  { id: 'drama', title: 'Critics\' Choice', movies: [movies[48], movies[49], movies[51], movies[52], movies[53], movies[59], movies[18], movies[2]] },
+  { id: 'shows', title: 'Top Rated Shows', movies: [movies[46], movies[47], movies[52], movies[56], movies[61], movies[65], movies[16], movies[42]] },
+  { id: 'awards', title: 'Award Winning Pieces', movies: [movies[58], movies[55], movies[30], movies[32], movies[28], movies[6], movies[50]] },
 ];
 
 // --- Dedicated TV Show Categories ---
