@@ -826,18 +826,30 @@ export const movies: Movie[] = [
     match: 90,
     type: 'movie',
     isNew: true,
+  },
+  {
+    id: '66',
+    title: 'Gangs of London',
+    poster: '/posters/gangs-of-london.jfif',
+    rating: 'TV-MA',
+    year: '2020',
+    duration: '2 Seasons',
+    genres: ['Action', 'Crime', 'Drama'],
+    description: 'When the head of a criminal organization is assassinated, the sudden power vacuum threatens the fragile peace between the international gangs of London.',
+    match: 94,
+    type: 'tv',
   }
 ];
 
 // --- Existing Home Page Categories ---
 export const initialCategories = [
-  { id: 'trending', title: 'Trending Now', movies: [movies[15], movies[17], movies[16], movies[38], movies[36], movies[43], movies[0], movies[5]] },
+  { id: 'trending', title: 'Trending Now', movies: [movies[15], movies[17], movies[16], movies[38], movies[65], movies[36], movies[43], movies[0], movies[5]] },
   { id: 'continue', title: 'Continue Watching', movies: [movies[2], movies[7], movies[8], movies[9], movies[10], movies[11], movies[20], movies[41]] },
   { id: 'new', title: 'New Releases', movies: [movies[23], movies[35], movies[29], movies[39], movies[37], movies[27], movies[14], movies[4]] },
   { id: 'family', title: 'Family Favorites', movies: [movies[12], movies[13], movies[37], movies[36], movies[11], movies[15], movies[39]] },
-  { id: 'action', title: 'Action & Adventure', movies: [movies[31], movies[44], movies[19], movies[21], movies[22], movies[3], movies[38], movies[42], movies[14]] },
+  { id: 'action', title: 'Action & Adventure', movies: [movies[31], movies[44], movies[19], movies[21], movies[65], movies[22], movies[3], movies[38], movies[42], movies[14]] },
   { id: 'drama', title: 'Romance & Drama', movies: [movies[18], movies[2], movies[34], movies[33], movies[10], movies[1]] },
-  { id: 'shows', title: 'Top Rated Shows', movies: [movies[16], movies[42], movies[40], movies[0], movies[5], movies[44], movies[43]] },
+  { id: 'shows', title: 'Top Rated Shows', movies: [movies[16], movies[42], movies[40], movies[65], movies[0], movies[5], movies[44], movies[43]] },
   { id: 'awards', title: 'Award Winning Movies', movies: [movies[30], movies[32], movies[28], movies[6], movies[12], movies[13]] },
 ];
 
