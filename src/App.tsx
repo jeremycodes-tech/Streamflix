@@ -7,7 +7,6 @@ import { Search } from './pages/Search';
 import { Profile } from './pages/Profile';
 import { BrowseCategory } from './pages/BrowseCategory';
 import type { Movie } from './lib/data';
-import { movies, tvCategories, movieCategories, newAndPopularCategories } from './lib/data';
 import { AnimatePresence } from 'framer-motion';
 import { AuthModal } from './components/AuthModal';
 import { db } from './lib/db';
@@ -179,8 +178,7 @@ function App() {
             element={
               <BrowseCategory
                 pageTitle="TV Shows"
-                categories={tvCategories}
-                featuredMovie={movies.find(m => m.id === '44')!}
+                type="tv"
                 myList={myList}
                 toggleMyList={toggleMyList}
                 onPlayClick={handlePlayClick}
@@ -195,8 +193,7 @@ function App() {
             element={
               <BrowseCategory
                 pageTitle="Movies"
-                categories={movieCategories}
-                featuredMovie={movies.find(m => m.id === '32')!}
+                type="movie"
                 myList={myList}
                 toggleMyList={toggleMyList}
                 onPlayClick={handlePlayClick}
@@ -211,8 +208,7 @@ function App() {
             element={
               <BrowseCategory
                 pageTitle="New & Popular"
-                categories={newAndPopularCategories}
-                featuredMovie={movies.find(m => m.id === '57')!}
+                type="popular"
                 myList={myList}
                 toggleMyList={toggleMyList}
                 onPlayClick={handlePlayClick}

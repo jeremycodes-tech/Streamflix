@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { movies } from '../lib/data';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { tmdb } from '../lib/tmdb';
 import type { Movie } from '../lib/data';
 import { Play, Plus, Check, ArrowLeft, ThumbsUp } from 'lucide-react';
 import { Button } from '../components/ui/button';
@@ -25,24 +25,87 @@ export function MovieDetail({
 }) {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   
-  const movie = movies.find(m => m.id === id);
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const isInMyList = movie ? myList.some(m => m.id === movie.id) : false;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+    const loadDetails = async () => {
+      if (!id) return;
+      setLoading(true);
+      try {
+        // Try searching by ID in TMDB
+        // We first need to know if it's a 'movie' or 'tv'
+        // For simplicity, we search both or use a hint from the URL/State if we have it
+        // Or we can just use the search query if the ID is a string name
+        const isTV = location.pathname.includes('/tv/') || id.startsWith('tv-');
+        
+        // Detailed fetch from TMDB
+        const endpoint = isTV ? `/tv/${id.replace('tv-', '')}` : `/movie/${id}`;
+        const data = await tmdb.fetchFromTMDB(endpoint, { append_to_response: 'similar,credits' });
+        
+        // Map to our Movie interface
+        const mappedMovie: Movie = {
+          id: String(data.id),
+          title: data.title || data.name,
+          poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
+          backdrop: `https://image.tmdb.org/t/p/original${data.backdrop_path}`,
+          rating: data.vote_average >= 8 ? 'TV-MA' : 'TV-14',
+          year: (data.release_date || data.first_air_date || '').split('-')[0],
+          duration: data.runtime ? `${data.runtime}m` : `${data.number_of_seasons} Seasons`,
+          genres: data.genres.map((g: any) => g.name),
+          description: data.overview,
+          match: Math.round(data.vote_average * 10),
+          type: isTV ? 'tv' : 'movie'
+        };
 
-  if (!movie) {
+        setMovie(mappedMovie);
+        
+        if (data.similar && data.similar.results) {
+           // map similar results
+           const similar = data.similar.results.slice(0, 6).map((item: any) => ({
+             id: String(item.id),
+             title: item.title || item.name,
+             poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+             backdrop: `https://image.tmdb.org/t/p/original${item.backdrop_path}`,
+             match: Math.round(item.vote_average * 10),
+             type: isTV ? 'tv' : 'movie'
+           }));
+           setSimilarMovies(similar);
+        }
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to load movie details", err);
+        setLoading(false);
+      }
+    };
+    loadDetails();
+  }, [id, location.pathname]);
+
+  if (loading) {
     return (
       <div className="min-h-screen bg-netflix-black text-white flex items-center justify-center">
-        <h2>Movie not found</h2>
-        <Button onClick={() => navigate('/')} className="ml-4">Go Home</Button>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-netflix-red"></div>
       </div>
     );
   }
 
-  const similarMovies = movies.filter(m => m.id !== movie.id && m.genres.some(g => movie.genres.includes(g))).slice(0, 6);
+  if (!movie) {
+    return (
+      <div className="min-h-screen bg-netflix-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Content not found</h2>
+          <Button onClick={() => navigate('/')} className="bg-netflix-red">Go Home</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div 
@@ -54,7 +117,6 @@ export function MovieDetail({
     >
       <Header scrolled={true} isAuthenticated={isAuthenticated} onLogout={onLogout} onLoginClick={onLoginClick} />
 
-      {/* Cinematic Hero Section */}
       <div className="relative min-h-[85vh] w-full flex flex-col justify-end pt-32 pb-12">
         <div className="absolute inset-0">
           <motion.img 
@@ -63,13 +125,11 @@ export function MovieDetail({
             alt={movie.title}
             className="w-full h-full object-cover"
           />
-          {/* Gradients to blend into the dark background */}
           <div className="absolute inset-0 bg-gradient-to-r from-netflix-black via-netflix-black/80 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-netflix-black via-netflix-black/40 to-transparent" />
           <div className="absolute inset-0 bg-netflix-black/20" />
         </div>
 
-        {/* Back Button */}
         <button 
           onClick={() => window.history.length > 2 ? navigate(-1) : navigate('/')}
           className="fixed top-24 left-4 md:left-12 flex items-center gap-2 text-white hover:text-white transition-transform z-[60] group hover:-translate-x-1"
@@ -80,7 +140,6 @@ export function MovieDetail({
           <span className="font-semibold text-lg hidden sm:block drop-shadow-lg">Back</span>
         </button>
 
-        {/* Hero Content */}
         <div className="relative z-20 px-4 md:px-12 text-white flex flex-col items-start max-w-4xl mt-auto">
           <motion.h1 
             initial={{ y: 30, opacity: 0 }}
@@ -143,35 +202,9 @@ export function MovieDetail({
         </div>
       </div>
 
-      {/* Details & Similar Content */}
       <div className="px-4 md:px-12 py-12 md:py-24 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-12">
-          {/* Main Info */}
-          <div className="flex-1 space-y-8">
-            <h2 className="text-2xl font-semibold text-white">About {movie.title}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-white/70">
-              <div>
-                <span className="text-white/40 block text-sm mb-1">Director</span>
-                <span className="text-white">Unknown</span>
-              </div>
-              <div>
-                <span className="text-white/40 block text-sm mb-1">Cast</span>
-                <span className="text-white">Various Acclaimed Actors</span>
-              </div>
-              <div>
-                <span className="text-white/40 block text-sm mb-1">Genres</span>
-                <span className="text-white">{movie.genres.join(', ')}</span>
-              </div>
-              <div>
-                <span className="text-white/40 block text-sm mb-1">This movie is</span>
-                <span className="text-white">Exciting, Suspenseful</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* More Like This */}
-        <div className="mt-20">
+        <div className="">
           <h3 className="text-2xl font-semibold text-white mb-8 border-b border-white/10 pb-4">More Like This</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {similarMovies.map((similarMovie, idx) => (
@@ -181,7 +214,7 @@ export function MovieDetail({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="cursor-pointer group relative overflow-hidden rounded-lg bg-gray-900"
+                className="cursor-pointer group relative overflow-hidden rounded-lg bg-gray-900 shadow-xl"
                 onClick={() => navigate(`/movie/${similarMovie.id}`)}
               >
                 <img 

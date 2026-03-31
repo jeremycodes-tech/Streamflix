@@ -3,7 +3,7 @@ import { Header } from '../components/Header';
 import { HeroBanner } from '../components/HeroBanner';
 import { MovieRow } from '../components/MovieRow';
 import { Footer } from '../components/Footer';
-import { movies, initialCategories } from '../lib/data';
+import { tmdb } from '../lib/tmdb';
 import type { Movie } from '../lib/data';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -50,12 +50,14 @@ export function Home({
   onLoginClick: () => void;
 }) {
   const [showIntro, setShowIntro] = useState(() => {
-    // Only show intro once per session
     const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
     return !hasSeenIntro;
   });
   
   const [scrolled, setScrolled] = useState(false);
+  const [categories, setCategories] = useState<{ id: string; title: string; movies: Movie[] }[]>([]);
+  const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!showIntro) {
@@ -67,16 +69,40 @@ export function Home({
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [trending, topRated, action, horror] = await Promise.all([
+          tmdb.getTrending(),
+          tmdb.getMoviesByCategory('top_rated'),
+          tmdb.getMoviesByGenre(28),
+          tmdb.getMoviesByGenre(27)
+        ]);
+
+        setFeaturedMovie(trending[0]);
+        setCategories([
+          { id: 'trending', title: 'Trending Now', movies: trending },
+          { id: 'top_rated', title: 'Critically Acclaimed', movies: topRated },
+          { id: 'action', title: 'Action & Adventure', movies: action },
+          { id: 'horror', title: 'Horror Favourites', movies: horror },
+        ]);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch TMDB data", err);
+      }
+    };
+    loadData();
   }, []);
 
   const myListIds = new Set(myList.map(m => m.id));
 
   const allCategories = [
     ...(myList.length > 0 ? [{ id: 'mylist', title: 'My List', movies: myList }] : []),
-    ...initialCategories
+    ...categories
   ];
 
   const handleToggleMyListFromCard = (e: React.MouseEvent, movie: Movie) => {
@@ -110,25 +136,32 @@ export function Home({
           />
           
           <main>
-            <HeroBanner 
-              featuredMovie={movies[16]} // Stranger Things
-              onToggleMyList={toggleMyList}
-              isInMyList={myListIds.has('17')}
-              onPlayClick={onPlayClick}
-            />
+            {featuredMovie && (
+              <HeroBanner 
+                featuredMovie={featuredMovie}
+                onToggleMyList={toggleMyList}
+                isInMyList={myListIds.has(featuredMovie.id)}
+                onPlayClick={onPlayClick}
+              />
+            )}
             
-            {/* Movie Rows */}
             <div className="relative z-10 -mt-20 md:-mt-32 space-y-2 md:space-y-4 pb-12">
-              {allCategories.map((category) => (
-                <MovieRow 
-                  key={category.id}
-                  title={category.title}
-                  movies={category.movies}
-                  onToggleMyList={handleToggleMyListFromCard}
-                  myListIds={myListIds}
-                  onPlayClick={onPlayClick}
-                />
-              ))}
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-netflix-red"></div>
+                </div>
+              ) : (
+                allCategories.map((category) => (
+                  <MovieRow 
+                    key={category.id}
+                    title={category.title}
+                    movies={category.movies}
+                    onToggleMyList={handleToggleMyListFromCard}
+                    myListIds={myListIds}
+                    onPlayClick={onPlayClick}
+                  />
+                ))
+              )}
             </div>
           </main>
 
