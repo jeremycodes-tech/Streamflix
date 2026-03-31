@@ -44,7 +44,7 @@ export function Header({
         <div className="flex items-center gap-6">
           <Link to="/">
             <img 
-              src="/streamflix-logo.png" 
+              src="/streamflix-app-logo.png" 
               alt="Streamflix" 
               className="h-8 md:h-10 w-auto object-contain cursor-pointer"
             />
