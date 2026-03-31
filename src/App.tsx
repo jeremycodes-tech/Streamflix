@@ -17,14 +17,21 @@ import './App.css';
 
 function App() {
   const [authUser, setAuthUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('youflix_auth_user');
+    const saved = localStorage.getItem('streamflix_auth_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [myList, setMyList] = useState<Movie[]>([]);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const location = useLocation();
-
   const isAuthenticated = !!authUser;
+
+  useEffect(() => {
+    if (authUser) {
+      localStorage.setItem('streamflix_auth_user', JSON.stringify(authUser));
+    } else {
+      localStorage.removeItem('streamflix_auth_user');
+    }
+  }, [authUser]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser: any) => {

@@ -22,8 +22,8 @@ function EntranceAnimation({ onComplete }: { onComplete: () => void }) {
     >
       <div className="netflix-intro-animation">
         <img 
-          src="/youflix-logo.png" 
-          alt="YouFlix" 
+          src="/streamflix-logo.png" 
+          alt="Streamflix" 
           className="w-48 h-48 md:w-72 md:h-72 object-contain"
         />
       </div>

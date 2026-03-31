@@ -1,3 +1,0 @@
-src/components/Header.tsx(1,20): error TS6133: 'useEffect' is declared but its value is never read.
-src/components/HeroBanner.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
-src/components/ui/form.tsx(14,8): error TS2307: Cannot find module 'react-hook-form' or its corresponding type declarations.

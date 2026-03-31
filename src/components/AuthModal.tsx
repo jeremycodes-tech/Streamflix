@@ -199,7 +199,7 @@ export function AuthModal({
             {isSignUp ? (
               <>Already have an account? <button onClick={() => { setIsSignUp(false); setError(''); }} className="text-white hover:underline font-semibold ml-1">Sign in now.</button></>
             ) : (
-              <>New to YouFlix? <button onClick={() => { setIsSignUp(true); setError(''); }} className="text-white hover:underline font-semibold ml-1">Sign up now.</button></>
+              <>New to Streamflix? <button onClick={() => { setIsSignUp(true); setError(''); }} className="text-white hover:underline font-semibold ml-1">Sign up now.</button></>
             )}
           </motion.div>
         </motion.div>

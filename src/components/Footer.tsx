@@ -38,7 +38,7 @@ export function Footer() {
         </div>
 
         <p className="text-xs">
-          YouFlix © 2026. Premium Streaming UI.
+          Streamflix © 2026. Premium Streaming UI.
         </p>
       </div>
     </footer>

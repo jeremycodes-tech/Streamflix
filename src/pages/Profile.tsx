@@ -72,7 +72,7 @@ export function Profile({
                   onClick={onLogout}
                   className="px-6 py-3 border border-gray-600 rounded font-medium hover:border-white transition-colors w-full sm:w-auto"
                 >
-                  Sign Out of YouFlix
+                  Sign Out of Streamflix
                 </button>
              </div>
            </div>
