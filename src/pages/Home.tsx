@@ -21,10 +21,13 @@ function EntranceAnimation({ onComplete }: { onComplete: () => void }) {
       transition={{ duration: 0.8 }}
     >
       <div className="netflix-intro-animation">
-        <img 
+        <motion.img 
           src="/streamflix-logo.png" 
           alt="Streamflix" 
-          className="w-48 h-48 md:w-72 md:h-72 object-contain"
+          className="w-80 h-80 md:w-[700px] md:h-[700px] object-contain drop-shadow-[0_0_60px_rgba(229,9,20,0.5)] scale-logo-animation"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 2, ease: "easeOut" }}
         />
       </div>
     </motion.div>

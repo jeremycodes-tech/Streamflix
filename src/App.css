@@ -1,5 +1,14 @@
 /* Streamflix Premium Animations & UI 2026 */
 
+@keyframes scale-logo-animation {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.02); filter: brightness(1.2) drop-shadow(0 0 30px rgba(229, 9, 20, 0.8)); }
+}
+
+.scale-logo-animation {
+  animation: scale-logo-animation 4s ease-in-out infinite;
+}
+
 /* Custom scrollbar matching dark theme */
 ::-webkit-scrollbar {
   width: 8px;

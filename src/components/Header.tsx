@@ -36,7 +36,7 @@ export function Header({
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled ? 'scrolled bg-netflix-black/90 backdrop-blur-sm' : 'bg-gradient-to-b from-black/90 to-transparent'
+        scrolled ? 'scrolled bg-black/60 backdrop-blur-xl border-b border-white/10' : 'bg-gradient-to-b from-black/80 via-black/40 to-transparent'
       }`}
     >
       <div className="flex items-center justify-between px-4 md:px-12 py-4">
@@ -46,13 +46,13 @@ export function Header({
             <img 
               src="/streamflix-app-logo.png" 
               alt="Streamflix" 
-              className="h-8 md:h-10 w-auto object-contain cursor-pointer"
+              className="h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-500 hover:scale-110 drop-shadow-[0_0_15px_rgba(229,9,20,0.4)] hover:drop-shadow-[0_0_25px_rgba(229,9,20,0.8)] hover:brightness-110"
             />
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link to="/" className="text-white hover:text-gray-300 transition-colors font-medium">Home</Link>
+          <nav className="hidden md:flex items-center gap-8 text-sm ml-4">
+            <Link to="/" className="text-white hover:text-red-500 transition-colors font-semibold">Home</Link>
             <Link to="/tv-shows" className="text-gray-300 hover:text-white transition-colors">TV Shows</Link>
             <Link to="/movies" className="text-gray-300 hover:text-white transition-colors">Movies</Link>
             <Link to="/latest" className="text-gray-300 hover:text-white transition-colors">New & Popular</Link>
