@@ -39,14 +39,14 @@ export function Header({
         scrolled ? 'scrolled bg-black/60 backdrop-blur-xl border-b border-white/10' : 'bg-gradient-to-b from-black/80 via-black/40 to-transparent'
       }`}
     >
-      <div className="flex items-center justify-between px-4 md:px-12 py-4">
+      <div className="flex items-center justify-between px-4 md:px-12 py-3">
         {/* Left side */}
         <div className="flex items-center gap-6">
           <Link to="/">
             <img 
               src="/streamflix-app-logo.png" 
               alt="Streamflix" 
-              className="h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-500 hover:scale-110 drop-shadow-[0_0_15px_rgba(229,9,20,0.4)] hover:drop-shadow-[0_0_25px_rgba(229,9,20,0.8)] hover:brightness-110"
+              className="h-8 md:h-10 w-auto object-contain cursor-pointer transition-all duration-500 hover:scale-110 drop-shadow-[0_0_15px_rgba(229,9,20,0.4)] hover:drop-shadow-[0_0_25px_rgba(229,9,20,0.8)] hover:brightness-110"
             />
           </Link>
           
