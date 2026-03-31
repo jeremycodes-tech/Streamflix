@@ -1,0 +1,247 @@
+/* YouFlix Premium Animations & UI 2026 */
+
+/* Custom scrollbar matching dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #141414;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E50914;
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+  background-color: #141414;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: white;
+}
+
+/* 1. Cinematic Ken Burns Hero Zoom */
+@keyframes kenBurnsEffect {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+.hero-bg-anim {
+  animation: kenBurnsEffect 20s ease-out infinite alternate;
+  background-position: center center;
+}
+
+/* 2. Magnetic Navbar Hover Effects */
+header nav a {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+header nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #E50914;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+header nav a:hover {
+  color: white !important;
+  text-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+}
+
+/* 3. Refined Frosted Glass Header */
+header.scrolled {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(25px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 4. Movie Card Interaction (No Blur, Premium Pop) */
+.movie-card {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+/* NO BLUR FOR BUSINESS - Only focus on the card you're hovering on */
+.movie-row:hover .movie-card:not(:hover) {
+  opacity: 0.6; /* Balanced opacity for focus, no blur as requested */
+  transform: scale(0.98);
+}
+
+.movie-card:hover {
+  transform: scale(1.15) translateY(-10px);
+  z-index: 100;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(229, 9, 20, 0.3);
+}
+
+.movie-card img {
+  border-radius: 4px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.movie-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.1) contrast(1.05);
+}
+
+/* 5. Icon Micro-Pulse */
+.hover-icon-pulse:hover {
+  transform: scale(1.2);
+  color: #E50914;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 6. Play Button Glint/Shimmer Effect */
+@keyframes glint {
+  0% { transform: translate(-100%, -100%) rotate(45deg); }
+  50%, 100% { transform: translate(100%, 100%) rotate(45deg); }
+}
+
+.play-btn-glint {
+  position: relative;
+  overflow: hidden;
+}
+
+.play-btn-glint::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: glint 4s infinite linear;
+}
+
+/* 7. Category Title Mask Reveal */
+@keyframes titleReveal {
+  from { opacity: 0; transform: translateX(-20px); filter: blur(5px); }
+  to { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+
+.movie-row h2 {
+  animation: titleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+/* 8. Elastic Entrance Animation for Cards */
+@keyframes cardEntrance {
+  from { opacity: 0; transform: scale(0.8) translateY(30px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.movie-card {
+  animation: cardEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+}
+
+/* Dynamic delays for a staggered entrance */
+.movie-card:nth-child(1) { animation-delay: 0.1s; }
+.movie-card:nth-child(2) { animation-delay: 0.15s; }
+.movie-card:nth-child(3) { animation-delay: 0.2s; }
+.movie-card:nth-child(4) { animation-delay: 0.25s; }
+.movie-card:nth-child(5) { animation-delay: 0.3s; }
+.movie-card:nth-child(6) { animation-delay: 0.35s; }
+
+/* 9. Hero Content Reveal with Smooth Delay */
+.hero-content {
+  animation: slideUpReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpReveal {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 10. Smooth Modal Elastic Pop transformation */
+[data-radix-dialog-content] {
+  animation: modalScaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalScaleIn {
+  from { opacity: 0; transform: translate(-50%, -45%) scale(0.92); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Utility Animations */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Overlay Enhancements */
+.hover-overlay {
+  background: linear-gradient(to top, 
+    rgba(0,0,0,1) 0%, 
+    rgba(0,0,0,0.6) 40%, 
+    rgba(0,0,0,0) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  padding: 1rem;
+}
+
+.movie-card:hover .hover-overlay {
+  opacity: 1;
+}
+
+/* Scroll button stylings with improved visibility */
+.scroll-btn {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  width: 50px !important;
+  height: 100% !important;
+  opacity: 0;
+  z-index: 10;
+}
+
+.movie-row:hover .scroll-btn {
+  opacity: 1;
+}
+
+.scroll-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.05);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .movie-card:hover {
+    transform: scale(1.1) translateY(0); /* Fixed invalid property */
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem !important;
+  }
+}
