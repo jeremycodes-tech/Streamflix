@@ -26,11 +26,11 @@ export function MovieCard({
       const now = Date.now();
       if (now - lastTap.current < 300) {
         // Double tap
-        navigate(`/movie/${movie.id}`);
+        navigate(`/detail/${movie.type || 'movie'}/${movie.id}`);
       }
       lastTap.current = now;
     } else {
-      navigate(`/movie/${movie.id}`);
+      navigate(`/detail/${movie.type || 'movie'}/${movie.id}`);
     }
   };
 

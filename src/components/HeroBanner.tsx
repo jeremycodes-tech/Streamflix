@@ -90,7 +90,7 @@ export function HeroBanner({
             <Button 
               variant="secondary"
               className="bg-gray-500/40 text-white hover:bg-gray-500/60 px-6 md:px-10 py-5 md:py-7 text-base md:text-xl font-bold rounded flex items-center gap-2 backdrop-blur-md border border-white/10 hover:scale-105 transition-transform"
-              onClick={() => navigate(`/movie/${featuredMovie.id}`)}
+              onClick={() => navigate(`/detail/${featuredMovie.type || 'movie'}/${featuredMovie.id}`)}
             >
               <Info className="w-5 h-5 md:w-7 md:h-7" />
               More Info

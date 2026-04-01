@@ -134,7 +134,7 @@ function App() {
             } 
           />
           <Route 
-            path="/movie/:id" 
+            path="/detail/:type/:id" 
             element={
               <MovieDetail 
                 myList={myList} 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { tmdb } from '../lib/tmdb';
 import type { Movie } from '../lib/data';
 import { Play, Plus, Check, ArrowLeft, ThumbsUp } from 'lucide-react';
@@ -23,9 +23,8 @@ export function MovieDetail({
   onLogout: () => void;
   onLoginClick: () => void;
 }) {
-  const { id } = useParams<{ id: string }>();
+  const { id, type } = useParams<{ id: string; type: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
   
   const [movie, setMovie] = useState<Movie | null>(null);
   const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
@@ -36,17 +35,13 @@ export function MovieDetail({
   useEffect(() => {
     window.scrollTo(0, 0);
     const loadDetails = async () => {
-      if (!id) return;
+      if (!id || !type) return;
       setLoading(true);
       try {
-        // Try searching by ID in TMDB
-        // We first need to know if it's a 'movie' or 'tv'
-        // For simplicity, we search both or use a hint from the URL/State if we have it
-        // Or we can just use the search query if the ID is a string name
-        const isTV = location.pathname.includes('/tv/') || id.startsWith('tv-');
+        const isTV = type === 'tv';
         
         // Detailed fetch from TMDB
-        const endpoint = isTV ? `/tv/${id.replace('tv-', '')}` : `/movie/${id}`;
+        const endpoint = isTV ? `/tv/${id}` : `/movie/${id}`;
         const data = await tmdb.fetchFromTMDB(endpoint, { append_to_response: 'similar,credits' });
         
         // Map to our Movie interface
@@ -57,7 +52,7 @@ export function MovieDetail({
           backdrop: `https://image.tmdb.org/t/p/original${data.backdrop_path}`,
           rating: data.vote_average >= 8 ? 'TV-MA' : 'TV-14',
           year: (data.release_date || data.first_air_date || '').split('-')[0],
-          duration: data.runtime ? `${data.runtime}m` : `${data.number_of_seasons} Seasons`,
+          duration: isTV ? `${data.number_of_seasons} Seasons` : `${data.runtime}m`,
           genres: data.genres.map((g: any) => g.name),
           description: data.overview,
           match: Math.round(data.vote_average * 10),
@@ -86,7 +81,7 @@ export function MovieDetail({
       }
     };
     loadDetails();
-  }, [id, location.pathname]);
+  }, [id, type]);
 
   if (loading) {
     return (
