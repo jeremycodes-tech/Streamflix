@@ -88,7 +88,8 @@ export const tmdb = {
   },
   getAnime: async () => {
     const data = await fetchFromTMDB('/discover/tv', { 
-      with_genres: '16', 
+      with_genres: '16,10759', // Animation AND Action & Adventure
+      without_genres: '10762,10751', // Exclude Kids and Family
       with_original_language: 'ja',
       sort_by: 'popularity.desc'
     });
