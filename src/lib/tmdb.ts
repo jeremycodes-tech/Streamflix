@@ -86,6 +86,14 @@ export const tmdb = {
     const data = await fetchFromTMDB('/discover/tv', { with_genres: String(genreId) });
     return data.results.map((item: TMDBMovie) => mapTMDBToMovie(item, 'tv'));
   },
+  getAnime: async () => {
+    const data = await fetchFromTMDB('/discover/tv', { 
+      with_genres: '16', 
+      with_original_language: 'ja',
+      sort_by: 'popularity.desc'
+    });
+    return data.results.map((item: TMDBMovie) => mapTMDBToMovie(item, 'tv'));
+  },
   search: async (query: string) => {
     const data = await fetchFromTMDB('/search/multi', { query });
     return data.results

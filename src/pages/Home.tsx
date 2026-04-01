@@ -83,7 +83,7 @@ export function Home({
           tmdb.getMoviesByGenre(27),
           tmdb.getMoviesByGenre(16),
           tmdb.getMoviesByGenre(53),
-          tmdb.getMoviesByGenre(16), // Anime/Animation
+          tmdb.getAnime(), // Specialized Anime fetch
           tmdb.getMoviesByGenre(35),
           tmdb.getMoviesByGenre(878),
           tmdb.getMoviesByGenre(10749),
