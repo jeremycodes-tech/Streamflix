@@ -38,7 +38,7 @@ export function HeroBanner({
       </motion.div>
 
       {/* Content */}
-      <div className="absolute top-20 left-0 right-0 bottom-0 flex flex-col justify-end pb-16 md:pb-24 lg:pb-32 px-4 md:px-12 hero-content z-10">
+      <div className="absolute top-40 left-0 right-0 bottom-0 flex flex-col justify-end pb-12 md:pb-24 lg:pb-32 px-4 md:px-12 hero-content z-0">
         <div className="max-w-2xl space-y-4 md:space-y-6 lg:space-y-8">
           {/* Movie Title */}
           <motion.h1 
