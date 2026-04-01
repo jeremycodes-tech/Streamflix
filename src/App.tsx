@@ -9,6 +9,7 @@ import { BrowseCategory } from './pages/BrowseCategory';
 import type { Movie } from './lib/data';
 import { AnimatePresence } from 'framer-motion';
 import { AuthModal } from './components/AuthModal';
+import { VideoPlayer } from './components/VideoPlayer';
 import { db } from './lib/db';
 import { auth } from './lib/firebase';
 import type { User } from './lib/db';
@@ -21,6 +22,7 @@ function App() {
   });
   const [myList, setMyList] = useState<Movie[]>([]);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [playingMovie, setPlayingMovie] = useState<Movie | null>(null);
   const location = useLocation();
   const isAuthenticated = !!authUser;
 
@@ -75,9 +77,16 @@ function App() {
     }
   };
 
-  const handlePlayClick = () => {
+  const handlePlayClick = (movie?: Movie) => {
     if (isAuthenticated) {
-      alert("Simulating Video Player: Playing Content!");
+      if (movie) {
+        setPlayingMovie(movie);
+      } else {
+        // If no movie passed (e.g. from Hero with no explicit movie), try to use featured
+        // But App.tsx doesn't have easy access to Home's featured movie yet.
+        // We'll update the components to pass the movie.
+        console.warn("No movie provided to play");
+      }
     } else {
       setShowAuthModal(true);
     }
@@ -226,6 +235,10 @@ function App() {
         onLogin={handleLogin}
         onSignUp={handleSignUp}
         onGoogleLogin={handleGoogleLogin}
+      />
+      <VideoPlayer 
+        movie={playingMovie} 
+        onClose={() => setPlayingMovie(null)} 
       />
     </>
   );

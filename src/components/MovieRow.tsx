@@ -15,7 +15,7 @@ export function MovieRow({
   movies: Movie[]; 
   onToggleMyList: (e: React.MouseEvent, movie: Movie) => void;
   myListIds: Set<string>;
-  onPlayClick?: () => void;
+  onPlayClick?: (movie: Movie) => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showButtons, setShowButtons] = useState({ left: false, right: false });
@@ -128,7 +128,7 @@ export function MovieRow({
               movie={movie} 
               onToggleMyList={onToggleMyList}
               isInMyList={myListIds.has(movie.id)}
-              onPlay={onPlayClick}
+              onPlay={() => onPlayClick && onPlayClick(movie)}
             />
           ))}
         </div>

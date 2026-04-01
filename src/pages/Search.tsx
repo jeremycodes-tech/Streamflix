@@ -10,7 +10,7 @@ import type { Movie } from '../lib/data';
 interface SearchProps {
   myList: Movie[];
   toggleMyList: (movie: Movie) => void;
-  onPlayClick: () => void;
+  onPlayClick: (movie: Movie) => void;
   isAuthenticated: boolean;
   onLogout: () => void;
   onLoginClick: () => void;
@@ -83,7 +83,7 @@ export function Search({ myList, toggleMyList, onPlayClick, isAuthenticated, onL
                   e.stopPropagation();
                   toggleMyList(m);
                 }} 
-                onPlay={onPlayClick}
+                onPlay={() => onPlayClick(movie)}
               />
             ))}
           </div>

@@ -30,7 +30,7 @@ export const db = {
       if (error.code === 'auth/email-already-in-use') {
         throw new Error('User already exists. Please Sign In.');
       }
-      throw new Error(error.message);
+      throw new Error(error.message || 'Signup failed.');
     }
   },
 
@@ -43,7 +43,10 @@ export const db = {
         name: userCredential.user.displayName || email.split('@')[0],
       };
     } catch (error: any) {
-      throw new Error('Invalid email or password.');
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+        throw new Error('Invalid email or password.');
+      }
+      throw new Error(error.message || 'Login failed.');
     }
   },
 
@@ -56,7 +59,10 @@ export const db = {
         name: userCredential.user.displayName || 'Google User',
       };
     } catch (error: any) {
-      throw new Error('Google Login failed or was cancelled.');
+      if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Login cancelled.');
+      }
+      throw new Error(error.message || 'Google Login failed.');
     }
   },
 

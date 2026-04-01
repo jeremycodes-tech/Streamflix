@@ -44,7 +44,7 @@ export function Home({
 }: { 
   myList: Movie[];
   toggleMyList: (movie: Movie) => void;
-  onPlayClick: () => void;
+  onPlayClick: (movie: Movie) => void;
   isAuthenticated: boolean;
   onLogout: () => void;
   onLoginClick: () => void;
@@ -141,7 +141,7 @@ export function Home({
                 featuredMovie={featuredMovie}
                 onToggleMyList={toggleMyList}
                 isInMyList={myListIds.has(featuredMovie.id)}
-                onPlayClick={onPlayClick}
+                onPlayClick={() => onPlayClick(featuredMovie)}
               />
             )}
             

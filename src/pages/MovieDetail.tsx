@@ -18,7 +18,7 @@ export function MovieDetail({
 }: {
   myList: Movie[];
   toggleMyList: (movie: Movie) => void;
-  onPlayClick: () => void;
+  onPlayClick: (movie: Movie) => void;
   isAuthenticated: boolean;
   onLogout: () => void;
   onLoginClick: () => void;
@@ -182,7 +182,7 @@ export function MovieDetail({
           >
             <Button 
               className="bg-white text-black hover:bg-white/90 px-8 py-6 text-xl font-bold rounded flex items-center gap-3 hover:scale-105 transition-transform shadow-2xl"
-              onClick={onPlayClick}
+              onClick={() => onPlayClick(movie)}
             >
               <Play className="w-6 h-6 fill-black" />
               Play

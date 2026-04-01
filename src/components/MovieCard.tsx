@@ -13,7 +13,7 @@ export function MovieCard({
   movie: Movie; 
   onToggleMyList: (e: React.MouseEvent, movie: Movie) => void;
   isInMyList: boolean;
-  onPlay?: () => void;
+  onPlay?: (movie: Movie) => void;
 }) {
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ export function MovieCard({
             className="w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-white/90 hover:scale-110 transition-transform"
             onClick={(e) => {
               e.stopPropagation();
-              onPlay && onPlay();
+              onPlay && onPlay(movie);
             }}
           >
             <Play className="w-4 h-4 fill-black text-black" />
