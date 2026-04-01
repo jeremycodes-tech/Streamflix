@@ -76,13 +76,14 @@ export function Home({
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [trending, topRated, action, horror, children, thriller, comedy, scifi, romance, docs] = await Promise.all([
+        const [trending, topRated, action, horror, children, thriller, anime, comedy, scifi, romance, docs] = await Promise.all([
           tmdb.getTrending(),
           tmdb.getMoviesByCategory('top_rated'),
           tmdb.getMoviesByGenre(28),
           tmdb.getMoviesByGenre(27),
           tmdb.getMoviesByGenre(16),
           tmdb.getMoviesByGenre(53),
+          tmdb.getMoviesByGenre(16), // Anime/Animation
           tmdb.getMoviesByGenre(35),
           tmdb.getMoviesByGenre(878),
           tmdb.getMoviesByGenre(10749),
@@ -95,6 +96,7 @@ export function Home({
           { id: 'top_rated', title: 'Critically Acclaimed', movies: topRated },
           { id: 'children', title: "Children's Favorites", movies: children },
           { id: 'thriller', title: 'Thriller & Suspense', movies: thriller },
+          { id: 'anime', title: 'Anime Universe', movies: anime },
           { id: 'action', title: 'Action & Adventure', movies: action },
           { id: 'comedy', title: 'Laugh-out-Loud Comedies', movies: comedy },
           { id: 'scifi', title: 'Sci-Fi & Fantasy', movies: scifi },
