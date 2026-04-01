@@ -145,7 +145,7 @@ export function Home({
               />
             )}
             
-            <div className="relative z-10 -mt-20 md:-mt-32 space-y-2 md:space-y-4 pb-12">
+            <div className="relative z-10 -mt-8 md:-mt-16 space-y-2 md:space-y-4 pb-12">
               {loading ? (
                 <div className="flex items-center justify-center py-20">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-netflix-red"></div>
